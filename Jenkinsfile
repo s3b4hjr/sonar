@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('SCM') {
         steps {
-            checkout scm
+            checkout
         }
     }
     stage('SonarQube analysis') {

@@ -21,9 +21,9 @@ pipeline {
     stage('SonarQube analysis') {
       steps {
         script {
-          def scannerHome = tool 'sonarscan';
-          withSonarQubeEnv('sonar') {
-            sh "${tool("sonarscan ")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb -Dsonar.projectName=TCWeb"
+          def scannerHome = tool 'sonar';
+          withSonarQubeEnv('sonarqube') {
+            sh "${tool("sonar ")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb -Dsonar.projectName=TCWeb"
           }
         }
       }

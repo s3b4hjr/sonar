@@ -9,20 +9,20 @@ pipeline {
     skipDefaultCheckout(true)
   }
   stages {
-    stage('Clone SCM for sonar') {
-      steps {
-        // Clean before build
-        cleanWs()
-          git branch: 'develop',
-          credentialsId: 'jenkins-ssh-git',
-          url: 'git@github.com:tradersclub/TCWeb.git'
-      }
-    }
+//    stage('Clone SCM for sonar') {
+//      steps {
+//        // Clean before build
+//        cleanWs()
+//          git branch: 'develop',
+//          credentialsId: 'jenkins-ssh-git',
+//          url: 'git@github.com:tradersclub/TCWeb.git'
+//      }
+//    }
     stage('SonarQube analysis') {
       steps {
         script {
           def scannerHome = tool 'sonar';
-          withSonarQubeEnv('sonar') {
+          withSonarQubeEnv() {
             sh "${tool("sonar")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb -Dsonar.projectName=TCWeb"
           }
         }

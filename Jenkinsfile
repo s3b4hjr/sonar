@@ -1,10 +1,8 @@
 properties([disableConcurrentBuilds()])
 pipeline {
-  agent {
-    label 'master'
-  }
+  agent any
   tools {
-    nodejs 'nodejs'
+    nodejs 'node_14_15_0'
   }
   options {
     // This is required if you want to clean before build

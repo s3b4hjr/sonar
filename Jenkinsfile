@@ -4,10 +4,6 @@ pipeline {
   tools {
     nodejs 'node_14_15_0'
   }
-  options {
-    // This is required if you want to clean before build
-    skipDefaultCheckout(true)
-  }
   stages {
     stage('SCM') {
         steps {

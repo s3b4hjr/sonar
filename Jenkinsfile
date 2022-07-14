@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('SCM') {
         steps {
-            sh 'ls -lah'
+            checkout scm
         }
     }
     stage('SonarQube analysis') {

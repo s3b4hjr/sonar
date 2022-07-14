@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('SCM') {
         steps {
-            git url: 'https://github.com/tradersclub/TCWeb.git'
+            sh 'ls -lah'
         }
     }
     stage('SonarQube analysis') {

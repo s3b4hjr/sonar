@@ -9,15 +9,11 @@ pipeline {
     skipDefaultCheckout(true)
   }
   stages {
-//    stage('Clone SCM for sonar') {
-//      steps {
-//        // Clean before build
-//        cleanWs()
-//          git branch: 'develop',
-//          credentialsId: 'jenkins-ssh-git',
-//          url: 'git@github.com:tradersclub/TCWeb.git'
-//      }
-//    }
+    stage('SCM') {
+        steps {
+            git url: 'https://github.com/tradersclub/TCWeb.git'
+        }
+    }
     stage('SonarQube analysis') {
       steps {
         script {

@@ -28,16 +28,16 @@ pipeline {
         }
       }
     }
-    stage("Quality gate") {
-      steps {
-        script {
-          def qualitygate = waitForQualityGate()
-          sleep(10)
-          if (qualitygate.status != "OK") {
-            waitForQualityGate abortPipeline: true
-          }
-        }
-      }
-    }
+//    stage("Quality gate") {
+//      steps {
+//        script {
+//          def qualitygate = waitForQualityGate()
+//          sleep(10)
+//          if (qualitygate.status != "OK") {
+//            waitForQualityGate abortPipeline: true
+//          }
+//        }
+//      }
+//    }
   }
 }

@@ -13,10 +13,12 @@ pipeline {
         }
     }
     stage("Test and covarage") {
-      sh '''
-         yarn
-         yarn jest --coverage
-         '''
+      steps {
+        sh '''
+          yarn
+          yarn jest --coverage
+          '''
+      }
     }
     stage('SonarQube analysis') {
       steps {

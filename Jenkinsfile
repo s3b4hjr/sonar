@@ -12,22 +12,22 @@ pipeline {
             checkout scm
         }
     }
-//    stage("Test and covarage") {
-//      steps {
-//        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN_KEY')]) {
-//              sh "echo @tradersclub:registry=https://npm.pkg.github.com > .npmrc"
-//              sh "echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN_KEY}' >> .npmrc"
-//              sh 'echo engine-strict = true'            
-//          }          
+    stage("Test and covarage") {
+      steps {
+        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN_KEY')]) {
+              sh "echo @tradersclub:registry=https://npm.pkg.github.com > .npmrc"
+              sh "echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN_KEY}' >> .npmrc"
+              sh 'echo engine-strict = true'            
+          }          
 
-//        sh "yarn"
-//        sh "yarn jest --coverage"
+        sh "yarn"
+        sh "yarn jest --coverage --maxWorkers=2"
 
-//        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-//                    sh "exit 1"
-//        }
-//      }
-//    }
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    sh "exit 1"
+        }
+      }
+    }
     stage('SonarQube analysis') {
       steps {
         script {
@@ -35,7 +35,7 @@ pipeline {
           withSonarQubeEnv('sonarqube') {
             sh "${tool("sonar")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb \
                                                    -Dsonar.projectName=TCWeb \
-                                                   -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info"
+                                                   -Dsonar.javascript.lcov.reportPaths=./test/coverage/lcov.info"
           }
         }
       }

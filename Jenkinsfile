@@ -12,12 +12,20 @@ pipeline {
             checkout scm
         }
     }
+    stage("Test and covarage") {
+      sh '''
+         yarn
+         yarn jest --coverage
+         '''
+    }
     stage('SonarQube analysis') {
       steps {
         script {
           def scannerHome = tool 'sonar';
           withSonarQubeEnv('sonarqube') {
-            sh "${tool("sonar")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb -Dsonar.projectName=TCWeb"
+            sh "${tool("sonar")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb \
+                                                   -Dsonar.projectName=TCWeb \
+                                                   -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info"
           }
         }
       }

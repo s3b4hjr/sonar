@@ -13,12 +13,12 @@ pipeline {
         }
     }
     stage("Test and covarage") {
-      environment {
-        GH_TOKEN = credentials 'JENKINS_GIT_TOKEN'
-      }
-
       steps {
-        sh "git config --global url.'https://${GH_TOKEN}@github.com/'.insteadOf 'https://github.com/'"
+        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN_KEY')]) {
+              sh "echo @tradersclub:registry=https://npm.pkg.github.com > .npmrc"
+              sh "echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN_KEY}' >> .npmrc"
+              sh 'echo engine-strict = true'            
+          }          
 
         sh "yarn"
         sh "yarn jest --coverage"

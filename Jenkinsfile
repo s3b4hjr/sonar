@@ -35,7 +35,7 @@ pipeline {
           withSonarQubeEnv('sonarqube') {
             sh "${tool("sonar")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb \
                                                    -Dsonar.projectName=TCWeb \
-                                                   -Dsonar.javascript.lcov.reportPaths=./test/coverage/lcov.info"
+                                                   -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info"
           }
         }
       }

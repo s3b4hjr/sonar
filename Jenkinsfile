@@ -4,7 +4,7 @@ pipeline {
       disableConcurrentBuilds()
   }
   tools {
-    nodejs 'node_16'
+    nodejs 'node_14_17_0'
   }
   stages {
     stage('SCM') {

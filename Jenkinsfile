@@ -12,17 +12,17 @@ pipeline {
             checkout scm
         }
     }
-    stage("Test and covarage") {
-      steps {
-        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN_KEY')]) {
-              sh "echo @tradersclub:registry=https://npm.pkg.github.com > .npmrc"
-              sh "echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN_KEY}' >> .npmrc"
-              sh 'echo engine-strict = true'            
-          }         
-        sh "yarn"
-        sh "yarn jest --coverage"  
-      }
-    }
+//    stage("Test and covarage") {
+//      steps {
+//        withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN_KEY')]) {
+//              sh "echo @tradersclub:registry=https://npm.pkg.github.com > .npmrc"
+//              sh "echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN_KEY}' >> .npmrc"
+//              sh 'echo engine-strict = true'            
+//          }         
+//        sh "yarn"
+//        sh "yarn jest --coverage"  
+//      }
+//    }
     stage('SonarQube analysis') {
       steps {
         script {

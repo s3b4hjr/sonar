@@ -22,7 +22,7 @@ pipeline {
 
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
           sh "yarn"
-          sh "yarn jest --coverage --maxWorkers=1"
+          sh "yarn jest --coverage --maxWorkers=1 --runInBand"
       }
     }
   }  

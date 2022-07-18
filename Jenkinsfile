@@ -24,7 +24,7 @@ pipeline {
         sh "yarn jest --coverage --maxWorkers=1"
 
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh "exit 1"
+          error "Test step failed."
       }
     }
   }  

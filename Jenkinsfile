@@ -24,8 +24,7 @@ pipeline {
         sh "yarn jest --coverage --maxWorkers=2"
 
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    sh "exit 1"
-        }
+                    sh "exit 0"
       }
     }
     stage('SonarQube analysis') {

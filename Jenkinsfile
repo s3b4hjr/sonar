@@ -22,7 +22,7 @@ pipeline {
 
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
           sh "yarn"
-          sh "yarn jest --coverage --forceExit --ci -w=2"
+          sh "yarn jest --coverage --forceExit --ci --maxWorkers=20%"
       }
     }
   }  

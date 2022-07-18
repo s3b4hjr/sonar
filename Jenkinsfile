@@ -21,7 +21,7 @@ pipeline {
           }          
 
         sh "yarn"
-        sh "yarn jest --coverage --maxWorkers=2"
+        sh "yarn jest --coverage --maxWorkers=1"
 
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     sh "exit 0"

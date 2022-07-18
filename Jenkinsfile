@@ -20,7 +20,7 @@ pipeline {
               sh 'echo engine-strict = true'            
           }          
 
-        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+        catchError(buildResult: 'SUCESS', stageResult: 'FAILURE') {
           sh "yarn"
           sh "yarn jest --coverage --maxWorkers=1"
       }

@@ -27,6 +27,7 @@ pipeline {
                     sh "exit 0"
       }
     }
+  }  
     stage('SonarQube analysis') {
       steps {
         script {

@@ -31,10 +31,13 @@ pipeline {
         script {
           def scannerHome = tool 'sonar';
           withSonarQubeEnv('sonarqube') {
-            sh "${tool("sonar")}/bin/sonar-scanner -Dsonar.projectKey=tradersclub_TCWeb \
-                                                   -Dsonar.projectName=TCWeb \
-                                                   -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \
-                                                   -Dsonar.exclusions='node_modules,**/*_spec.tsx,**/*_spec.ts,tests'"
+            sh """
+              ${tool("sonar")}/bin/sonar-scanner \
+                -Dsonar.projectKey=tradersclub_TCWeb \
+                -Dsonar.projectName=TCWeb \
+                -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \
+                -Dsonar.exclusions=**/__tests__/**
+              """
           }
         }
       }

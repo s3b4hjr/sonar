@@ -36,7 +36,7 @@ pipeline {
                 -Dsonar.projectKey=tradersclub_TCWeb \
                 -Dsonar.projectName=TCWeb \
                 -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \
-                -Dsonar.exclusions=**/__tests__/**
+                -Dsonar.exclusions=**/__tests__/**,**/tests/**
               """
           }
         }

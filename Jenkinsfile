@@ -12,7 +12,7 @@ pipeline {
             checkout scm
         }
     }
-    stage("Test and covarage") {
+    stage("Test and coverage") {
       steps {
         withCredentials([string(credentialsId: 'NPM_TOKEN', variable: 'NPM_TOKEN_KEY')]) {
               sh "echo @tradersclub:registry=https://npm.pkg.github.com > .npmrc"

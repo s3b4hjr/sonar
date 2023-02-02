@@ -39,6 +39,7 @@ pipeline {
                 -Dsonar.exclusions=**/pages/**,**/stores/**,**/screens/**,**/__tests__/**,**/tests/**,next.config.js
               """
           }
+          cleanWs()
         }
       }
     }

@@ -1,0 +1,98 @@
+pipeline {
+    agent {
+      kubernetes {
+        defaultContainer 'git'
+        yaml """
+          kind: Pod
+          spec:
+            affinity:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: sonar
+                          operator: In
+                          values:
+                            - "true"
+            serviceAccountName: jenkins
+            containers:
+              - name: git
+                image: gcr.io/cloud-builders/git
+                command:
+                - cat
+                tty: true
+              - name: node
+                image: node
+                resources:
+                  requests:
+                    memory: "8Gi"
+                    cpu: "5"
+                  limits:
+                    memory: "32Gi"
+                command:
+                - cat
+                tty: true
+              - name: sonarqube
+                image: sonarsource/sonar-scanner-cli:latest
+                command:
+                - cat
+                tty: true
+        """
+      }
+    }
+
+  options {
+      disableConcurrentBuilds()
+  }
+
+  environment {
+      SONAR_URL   = "https://sonar.tc.com.br"
+      SONAR_TOKEN = credentials "sonar_token"
+      NODE_OPTIONS="--max_old_space_size=4096"
+  }
+
+  stages {
+    stage('Start coverage SAST') {
+      steps {
+        slackSend (
+            channel: '#continuous_delivery_process',
+            color: '#30ffb4',
+            message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      }
+    }
+
+    stage("Test and coverage") {
+      steps {
+        container("node"){
+          withCredentials([string(credentialsId: 'NPM_SECRET', variable: 'NPM_TOKEN_KEY')]) {
+              sh "echo @tradersclub:registry=https://npm.pkg.github.com > .npmrc"
+              sh "echo '//npm.pkg.github.com/:_authToken=${NPM_TOKEN_KEY}' >> .npmrc"
+              sh "echo engine-strict = true >> .npmrc"
+          }
+
+      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        sh "yarn"
+        sh "yarn jest --coverage --forceExit --ci --maxWorkers=20%"
+        }
+      }
+    }
+  }
+    stage('SonarQube analysis') {
+      steps {
+        container("sonarqube"){
+          script {
+            sh """
+              sonar-scanner \
+              -Dsonar.host.url=${SONAR_URL} \
+              -Dsonar.login=${SONAR_TOKEN} \                       
+              -Dsonar.projectKey=tradersclub_TCWeb \
+              -Dsonar.projectName=TCWeb \
+              -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \
+              -Dsonar.exclusions=**/pages/**,**/stores/**,**/screens/**,**/__tests__/**,**/tests/**,next.config.js
+              """
+          }
+        }
+      }
+    }
+  }
+}

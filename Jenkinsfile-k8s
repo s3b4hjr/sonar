@@ -52,13 +52,6 @@ pipeline {
   }
 
   stages {
-    stage("Checkout") {
-      steps {
-        container('git'){
-          git branch: 'develop', credentialsId: 'jenkins-github-app', url: 'https://github.com/tradersclub/TCWeb.git'
-        }
-      }
-    }
     stage('Start coverage SAST') {
       steps {
         slackSend (

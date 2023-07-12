@@ -82,12 +82,12 @@ pipeline {
         container("sonarqube"){
           script {
             sh """
-              sonar-scanner \
-              -Dsonar.host.url=${SONAR_URL} \
-              -Dsonar.login=${SONAR_TOKEN} \                       
-              -Dsonar.projectKey=tradersclub_TCWeb \
-              -Dsonar.projectName=TCWeb \
-              -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \
+              sonar-scanner \\
+              -Dsonar.host.url=${SONAR_URL} \\
+              -Dsonar.login=${SONAR_TOKEN} \\                   
+              -Dsonar.projectKey=tradersclub_TCWeb \\
+              -Dsonar.projectName=TCWeb \\
+              -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \\
               -Dsonar.exclusions=**/pages/**,**/stores/**,**/screens/**,**/__tests__/**,**/tests/**,next.config.js
               """
           }

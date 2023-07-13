@@ -52,6 +52,14 @@ pipeline {
   }
 
   stages {
+    // #for testing purpose
+    // stage("Checkout") {
+    //   steps {
+    //     container('git'){
+    //       git branch: 'develop', credentialsId: 'jenkins-github-app', url: 'git-repo-here'
+    //     }
+    //   }
+    // }       
     stage('Start coverage SAST') {
       steps {
         slackSend (
@@ -82,15 +90,16 @@ pipeline {
       steps {
         container("sonarqube"){
           script {
-            sh """
-              sonar-scanner \
-              -Dsonar.host.url=${SONAR_URL} \
-              -Dsonar.login=${SONAR_TOKEN} \
-              -Dsonar.projectKey=tradersclub_TCWeb \
-              -Dsonar.projectName=TCWeb \
-              -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \
-              -Dsonar.exclusions=**/pages/**,**/stores/**,**/screens/**,**/__tests__/**,**/tests/**,next.config.js
-              """
+            def scannerHome = tool 'sonar';
+            withSonarQubeEnv('sonarqube') {
+              sh """
+                  ${tool("sonar")}/bin/sonar-scanner \
+                  -Dsonar.projectKey=tradersclub_TCWeb \
+                  -Dsonar.projectName=TCWeb \
+                  -Dsonar.javascript.lcov.reportPaths=./tests/coverage/lcov.info \
+                  -Dsonar.exclusions=**/pages/**,**/stores/**,**/screens/**,**/__tests__/**,**/tests/**,next.config.js
+                """
+            }
           }
         }
       }

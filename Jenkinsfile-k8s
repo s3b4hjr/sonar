@@ -23,20 +23,26 @@ pipeline {
                 tty: true
               - name: node
                 image: node:18
+                command:
+                - cat
+                tty: true
                 resources:
                   requests:
                     memory: "8Gi"
                     cpu: "5"
                   limits:
                     memory: "32Gi"
-                command:
-                - cat
-                tty: true
               - name: sonarqube
                 image: sonarsource/sonar-scanner-cli:latest
                 command:
                 - cat
                 tty: true
+                resources:
+                  requests:
+                    memory: "2Gi"
+                    cpu: "1"
+                  limits:
+                    memory: "5Gi"
         """
       }
     }

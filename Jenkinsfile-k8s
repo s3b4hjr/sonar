@@ -87,7 +87,7 @@ pipeline {
       catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
         sh "git config --global --add safe.directory '*'"
         sh "yarn"
-        sh "yarn jest --coverage --forceExit --ci --maxWorkers=20% --detectOpenHandles"
+        sh "yarn jest -u --coverage --forceExit --ci --maxWorkers=20% --detectOpenHandles"
         }
       }
     }
